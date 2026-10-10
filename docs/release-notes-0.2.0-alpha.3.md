@@ -2,7 +2,7 @@ Codex Usage Monitor is now **QuotaOwl**, a Windows system tray monitor for **Cod
 
 ## Download
 
-[Download Windows ZIP / 下载 Windows 版本](https://github.com/flymm004/quotaowl/releases/download/v0.2.0-alpha.3/QuotaOwl-0.2.0-alpha.3-win-x64.zip)
+[Download Windows ZIP](https://github.com/flymm004/quotaowl/releases/download/v0.2.0-alpha.3/QuotaOwl-0.2.0-alpha.3-win-x64.zip)
 
 Download **QuotaOwl-0.2.0-alpha.3-win-x64.zip** from Assets below, extract it, and run **QuotaOwl.exe**. Keep **QuotaOwl.exe.config** beside the EXE. Requires Windows 10/11 x64 and .NET Framework 4.8. No installer or administrator privileges needed.
 
@@ -30,7 +30,7 @@ View both services' 5-hour and weekly limits, reset times, and update status. Sw
 - Codex reset-credit reading and improved discovery of the current local Codex runtime.
 - Explicit outdated-data markers on transient failures, without inventing zero values.
 - Owl branding, a multiresolution icon, and native high-DPI rendering.
-- Interface languages: English (default), Simplified Chinese, Traditional Chinese, Japanese, Korean, Spanish, German, and French.
+- Interface languages: English, Simplified Chinese, Traditional Chinese, Japanese, Korean, Spanish, German, and French. The app can follow the system language.
 
 ## Before running
 
