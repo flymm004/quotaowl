@@ -25,11 +25,16 @@ jobs:
         run: |
           $version = $env:GITHUB_REF_NAME -replace '^v', ''
           $assets = @(
-            "artifacts/CodexUsageMonitor-$version-win-x64.zip",
-            "artifacts/CodexUsageMonitor-$version-win-x64.zip.sha256",
-            "artifacts/release/CodexUsageMonitor-$version-win-x64.exe",
-            "artifacts/release/CodexUsageMonitor-$version-win-x64.exe.config",
-            "artifacts/release/CodexUsageMonitor-$version-win-x64.exe.sha256"
+            "artifacts/QuotaOwl-$version-win-x64.zip",
+            "artifacts/QuotaOwl-$version-win-x64.zip.sha256",
+            "artifacts/release/QuotaOwl-$version-win-x64.exe",
+            "artifacts/release/QuotaOwl-$version-win-x64.exe.config",
+            "artifacts/release/QuotaOwl-$version-win-x64.exe.sha256"
           )
-          & gh release create $env:GITHUB_REF_NAME @assets --draft --prerelease --title $env:GITHUB_REF_NAME --generate-notes
+          $notesPath = "docs/release-notes-$version.md"
+          if (Test-Path -LiteralPath $notesPath) {
+            & gh release create $env:GITHUB_REF_NAME @assets --draft --prerelease --title "QuotaOwl $version" --notes-file $notesPath
+          } else {
+            & gh release create $env:GITHUB_REF_NAME @assets --draft --prerelease --title "QuotaOwl $version" --generate-notes
+          }
           if ($LASTEXITCODE -ne 0) { throw "Could not create draft release." }

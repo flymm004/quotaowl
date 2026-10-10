@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace CodexUsageMonitor
+namespace QuotaOwl
 {
     internal static class UiText
     {
@@ -37,6 +37,7 @@ namespace CodexUsageMonitor
             {"notConnected", new[] {"Offline", "未连接", "未連線", "未接続", "연결 안 됨", "Sin conexión", "Nicht verbunden", "Hors ligne"}},
             {"retryHint", new[] {"Select Refresh to retry.", "点击“刷新”重试。", "按一下「重新整理」再試一次。", "「更新」を押して再試行してください。", "‘새로고침’을 눌러 다시 시도하세요.", "Pulsa «Actualizar» para reintentar.", "Zum erneuten Versuch auf „Aktualisieren“ klicken.", "Cliquez sur « Actualiser » pour réessayer."}},
             {"noResets", new[] {"No resets available", "暂无可用重置", "目前沒有可用重設", "利用可能なリセットなし", "사용 가능한 재설정 없음", "No hay reinicios disponibles", "Keine Zurücksetzungen verfügbar", "Aucune réinitialisation disponible"}},
+            {"resetCountUnknown", new[] {"Reset count unknown", "重置次数未知", "重設次數未知", "リセット回数は不明", "재설정 횟수 알 수 없음", "Reinicios: sin datos", "Anzahl der Resets unbekannt", "Nombre de réinitialisations inconnu"}},
             {"resetAt", new[] {"Resets {0}", "重置于 {0}", "重設於 {0}", "{0}にリセット", "{0}에 재설정", "Se restablece {0}", "Wird um {0} zurückgesetzt", "Réinitialisation à {0}"}},
             {"trayReading", new[] {"Codex · Loading", "Codex · 正在读取", "Codex · 正在讀取", "Codex · 読込中", "Codex · 불러오는 중", "Codex · Cargando", "Codex · Lädt…", "Codex · Chargement"}},
             {"trayFailed", new[] {"Codex · Read failed", "Codex · 读取失败", "Codex · 讀取失敗", "Codex · 取得失敗", "Codex · 읽기 실패", "Codex · Error de lectura", "Codex · Lesefehler", "Codex · Échec de lecture"}},

@@ -1,67 +1,75 @@
-[English](README.md)
+# QuotaOwl 🦉
 
-# Codex Usage Monitor
+**Codex 和 Claude 的剩余额度，在 Windows 任务栏里一眼看清。**
 
-一款 Windows Codex CLI 使用量监控工具，在通知区域显示账户额度剩余比例和重置时间。支持 8 种界面语言及高 DPI 显示。
+一个轻量的 Windows 托盘用量监控工具。只用一个数字显示最低剩余额度，无需一直开着终端或浏览器查询。
 
-[**下载 Windows 版 — CodexUsageMonitor 0.1.0-alpha.1**](https://github.com/flymm004/codex-usage-monitor/releases/tag/v0.1.0-alpha.1) · [查看全部版本](https://github.com/flymm004/codex-usage-monitor/releases)
+[English](README.md) · [下载 / Releases](https://github.com/flymm004/codex-usage-monitor/releases) · [反馈问题](https://github.com/flymm004/codex-usage-monitor/issues)
 
-**快速开始：** 在页面的 **Assets** 中下载 `CodexUsageMonitor-0.1.0-alpha.1-win-x64.zip`，打开 ZIP 并点击 **全部解压**，然后进入解压后的文件夹，双击 `CodexUsageMonitor.exe` 即可运行，无需安装。使用前请先安装 Codex CLI 并登录。
+> 当前 0.2.0-alpha.3 为本地预览版，尚未上传 GitHub。旧版 Codex Usage Monitor 仅支持 Codex；下载新版时请选择名称以 **QuotaOwl** 开头的 ZIP。
 
-> **当前为 Alpha 版本。** 项目依赖本机 Codex CLI App Server 返回的数据结构，Codex 更新后可能需要适配。
+## 界面与功能
 
-## 功能
+<img src="docs/screenshots/usage-panel-zh-cn.png" width="352" alt="QuotaOwl 双服务面板，使用示例额度">
 
-- 显示服务返回的短周期、长周期剩余比例和重置时间
-- 在通知区域图标上显示短周期剩余比例
-- 每两分钟自动刷新，也支持手动刷新
-- 支持英语、简体中文、繁体中文、日语、韩语、西班牙语、德语和法语
-- 支持高 DPI 和 Per-Monitor V2 缩放
+*图片由当前 Windows 界面使用示例数据渲染，不包含真实账户数据。*
 
-## 截图
+<img src="docs/screenshots/tray-badge-sample.png" width="32" alt="单个蓝色托盘图标显示 44">
 
-托盘图标直接显示短周期剩余比例，点击后展开用量面板。截图使用示例数值，不包含真实账户额度。
+*单个托盘数字示例：这里表示 Codex 的周额度剩余 44%。*
 
-<p align="center">
-  <img src="docs/screenshots/tray-badge-sample.png" width="64" alt="Codex Usage Monitor 托盘图标示例，显示剩余 76%">
-</p>
+- **托盘只显示一个数字**：比较双方 5 小时、7 天额度，显示最低的剩余百分比。
+- **蓝色 Codex，暖橙色 Claude**：数字颜色跟随最低值所属服务。
+- **悬停看四项额度，点击开详情**：双方重置时间、读取状态、Codex 可用重置次数集中展示。
+- **每 2 分钟自动刷新**：双方独立读取，支持手动刷新；额度首次低于 20% 时提醒。
+- **八种语言**：英文、简体中文、繁体中文、日语、韩语、西班牙语、德语、法语，也可跟随系统。
+- **Windows 原生界面**：按显示器 DPI 缩放，无需安装，无需管理员权限，无额外包依赖。
 
-<p align="center">
-  <img src="docs/screenshots/usage-panel-zh-cn.png" width="652" alt="Codex Usage Monitor 中文用量面板示例">
-</p>
+## 下载和使用
 
-## 运行条件
+1. 打开 [下载页面](https://github.com/flymm004/codex-usage-monitor/releases)，找到 QuotaOwl 版本，展开 **Assets**。
+2. 下载 **QuotaOwl-版本号-win-x64.zip**。普通用户不需要下载 **Source code** 源码包。
+3. 右键压缩包，选择“**全部解压缩**”，打开解压后的文件夹。
+4. 双击 **QuotaOwl.exe**。保留同目录的 **QuotaOwl.exe.config**，用于高 DPI 支持。
+5. 在任务栏时钟旁找到数字。若被隐藏，点开托盘折叠菜单，将图标拖到任务栏上。
 
-- Windows 10/11
-- .NET Framework 4.8 或更新版本
-- 已安装 Codex CLI，并使用 ChatGPT 账户登录。仅使用 API Key 的登录方式不提供这里显示的 ChatGPT 套餐额度。
+关闭面板后仍在托盘运行；右键图标选择“退出”可关闭程序。与旧版 Codex Usage Monitor 共用单实例限制，避免重复运行。
 
-## 下载运行
+### 运行条件
 
-Release 同时提供 ZIP 和单独的 EXE/配置文件。推荐下载 ZIP：解压后运行 `CodexUsageMonitor.exe`。若单独下载 EXE，也要下载对应的 `.exe.config` 文件并放在 EXE 旁边；该配置用于启用高 DPI 显示适配。
+- Windows 10 / 11，64 位，.NET Framework 4.8。
+- 使用 Codex：已安装 CLI 或桌面版运行环境，并登录 ChatGPT 订阅账户。
+- 使用 Claude：Claude Code 已登录官方订阅账户，必要时运行 **claude auth login**；登录后可关闭终端。
+- 可访问额度服务的网络连接。只使用其中一个服务也可以。
 
-初始版本尚未签名，Windows 可能显示 SmartScreen 提示。运行前可查看 Release 说明和 SHA-256 校验文件。
+## 数字代表什么？
+
+例如 Codex 的两项剩余为 **86% / 44%**，Claude 为 **76% / 91%**，托盘就显示蓝色的 **44**。比较的是剩余百分比，双方额度并未相加，也不能互通。
+
+悬停提示中的 **5h** 代表 5 小时窗口，**7d** 代表 7 天窗口，**\*** 标出托盘当前显示的窗口。黄色小点表示额度低或读取失败。右键菜单会说明数字来自哪个服务、哪个额度窗口。
+
+网络等临时读取失败时，在内存中保留上次成功数值，并在面板与悬停提示中标记“旧数据”；**!** 表示该服务没有可读取的数据。退出登录或切到第三方服务时会移除该服务的旧数值。一方数据缺失时显示目前可用数据中的最低值；双方均无数据时显示 **—**，不误报为零。
+
+## 数据来源与限制
+
+**Codex**：通过已安装 CLI 的本机 App Server 查询，复用现有登录。优先选择桌面版当前的版本化运行文件，避免旧版根目录 codex.exe 影响。服务返回可用重置数时显示次数；没有返回则显示未知。
+
+**Claude**：在内存中使用 Claude Code 现有 OAuth 凭证，查询官方用量服务 **https://api.anthropic.com/api/oauth/usage**。**这是客户端内部接口，后续可能变更。** 本版展示总体 5 小时和 7 天额度，暂不展示模型专属额度。凭证过期时请通过 Claude Code 重新登录；QuotaOwl 不会自行刷新凭证。
+
+Claude 的可用重置权益**暂未自动读取**，面板提供官网用量页入口。通过 CC Switch 切到第三方服务或 API Key 时，会提示无法读取订阅额度。
+
+额度百分比不等于固定的剩余提问次数或任务次数。
+
+## 隐私
+
+不调用模型，不上传遥测，不保存额度历史，不复制或记录令牌。Claude 凭证只发送到固定的 HTTPS Anthropic 用量接口，禁止跟随重定向。仅保存语言偏好。详见[安全说明](SECURITY.md)。
 
 ## 从源码构建
 
-在 Windows PowerShell 5.1 或 PowerShell 7 中运行：
+    ./build.ps1 -Version 0.2.0-alpha.3
 
-```powershell
-.\build.ps1 -Version 0.1.0-alpha.1
-```
+使用 Windows 的 .NET Framework C# 编译器，生成 ZIP、EXE、配套配置及 SHA-256 文件，位于 **artifacts/**。另见[贡献指南](CONTRIBUTING.md)和[更新记录](CHANGELOG.md)。
 
-脚本使用 Windows 自带的 .NET Framework C# 编译器，无需 NuGet 包。EXE、ZIP、独立下载文件和 SHA-256 校验文件会生成在已加入忽略列表的 `artifacts/` 目录下。推送 `v*` 标签后，GitHub Actions 会构建这些文件并创建待审核的 Draft Release。
+## 许可
 
-## 数据与隐私
-
-程序通过标准输入输出启动本机 `codex app-server`，调用 `account/read` 和 `account/rateLimits/read` 查询登录状态与额度。App Server 使用 Codex 已有的登录状态，并与 Codex 服务通信以读取账户额度，因此运行时需要联网。本程序不连接开发者自有服务器、不收集遥测，也不保存登录令牌；界面不会展示或保存账户邮箱。语言偏好保存在当前 Windows 用户的应用数据目录中。
-
-显示值来自 Codex 服务的返回结果；本程序不会估算剩余任务次数。Codex CLI 更新可能更改 App Server 协议或额度字段。协议见[官方文档](https://learn.chatgpt.com/docs/app-server)。本项目是社区工具，与 OpenAI 无隶属关系；“Codex”用于说明兼容对象。
-
-## 贡献
-
-参阅 [CONTRIBUTING.md](CONTRIBUTING.md)。请勿在公开问题中上传包含实时额度、邮箱、令牌或其他私人信息的截图和日志。
-
-## 许可证与关联
-
-项目采用 [MIT 许可证](LICENSE)。本项目是独立社区工具，与 OpenAI 无隶属关系或背书；“Codex”仅用于标识兼容产品。
+[MIT](LICENSE)。独立社区工具，与 OpenAI、Anthropic 无隶属关系。

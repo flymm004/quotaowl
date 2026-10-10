@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$Version = "0.1.0-alpha.1"
+    [string]$Version = "0.2.0-alpha.3"
 )
 
 $ErrorActionPreference = "Stop"
@@ -9,7 +9,7 @@ if ($Version -notmatch '^[0-9A-Za-z][0-9A-Za-z.-]*$') {
 }
 
 $repoRoot = $PSScriptRoot
-$sourceRoot = Join-Path $repoRoot "src\CodexUsageMonitor"
+$sourceRoot = Join-Path $repoRoot "src\QuotaOwl"
 $artifactRoot = Join-Path $repoRoot "artifacts"
 $buildRoot = Join-Path $artifactRoot "build"
 $packageRoot = Join-Path $artifactRoot ("package-" + $Version + "-win-x64")
@@ -34,19 +34,24 @@ if (Test-Path -LiteralPath $packageFullPath) {
     Remove-Item -LiteralPath $packageFullPath -Recurse -Force
 }
 New-Item -ItemType Directory -Force -Path $packageFullPath | Out-Null
-$exePath = Join-Path $buildRoot "CodexUsageMonitor.exe"
+$exePath = Join-Path $buildRoot "QuotaOwl.exe"
 $arguments = @(
     "/nologo",
     "/target:winexe",
     "/optimize+",
-    ("/win32manifest:" + (Join-Path $sourceRoot "CodexUsageMonitor.manifest")),
+    "/platform:x64",
+    ("/win32icon:" + (Join-Path $sourceRoot "QuotaOwl.ico")),
+    ("/win32manifest:" + (Join-Path $sourceRoot "QuotaOwl.manifest")),
     "/reference:System.dll",
     "/reference:System.Drawing.dll",
     "/reference:System.Windows.Forms.dll",
     "/reference:System.Web.Extensions.dll",
     ("/out:" + $exePath),
-    (Join-Path $sourceRoot "codex_usage_monitor.cs"),
-    (Join-Path $sourceRoot "ui_text.cs")
+    (Join-Path $sourceRoot "main.cs"),
+    (Join-Path $sourceRoot "ui_text.cs"),
+    (Join-Path $sourceRoot "quota_owl.cs"),
+    (Join-Path $sourceRoot "claude_reader.cs"),
+    (Join-Path $sourceRoot "owl_text.cs")
 )
 
 & $compiler @arguments
@@ -55,19 +60,20 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Copy-Item -LiteralPath (Join-Path $sourceRoot "App.config") -Destination ($exePath + ".config") -Force
-Copy-Item -LiteralPath $exePath -Destination (Join-Path $packageRoot "CodexUsageMonitor.exe") -Force
-Copy-Item -LiteralPath ($exePath + ".config") -Destination (Join-Path $packageRoot "CodexUsageMonitor.exe.config") -Force
-Copy-Item -LiteralPath (Join-Path $repoRoot "README.md") -Destination (Join-Path $packageRoot "README.md") -Force
-Copy-Item -LiteralPath (Join-Path $repoRoot "README.zh-CN.md") -Destination (Join-Path $packageRoot "README.zh-CN.md") -Force
-Copy-Item -LiteralPath (Join-Path $repoRoot "LICENSE") -Destination (Join-Path $packageRoot "LICENSE") -Force
+Copy-Item -LiteralPath $exePath -Destination (Join-Path $packageRoot "QuotaOwl.exe") -Force
+Copy-Item -LiteralPath ($exePath + ".config") -Destination (Join-Path $packageRoot "QuotaOwl.exe.config") -Force
+foreach ($document in @("README.md", "README.zh-CN.md", "LICENSE", "SECURITY.md", "CHANGELOG.md", "CONTRIBUTING.md")) {
+    Copy-Item -LiteralPath (Join-Path $repoRoot $document) -Destination (Join-Path $packageRoot $document) -Force
+}
+Copy-Item -LiteralPath (Join-Path $repoRoot "docs") -Destination (Join-Path $packageRoot "docs") -Recurse -Force
 
-$archivePath = Join-Path $artifactRoot ("CodexUsageMonitor-" + $Version + "-win-x64.zip")
+$archivePath = Join-Path $artifactRoot ("QuotaOwl-" + $Version + "-win-x64.zip")
 Compress-Archive -Path (Join-Path $packageRoot "*") -DestinationPath $archivePath -Force
 $checksum = (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
 $checksumPath = $archivePath + ".sha256"
 Set-Content -LiteralPath $checksumPath -Value ($checksum + "  " + (Split-Path -Leaf $archivePath)) -Encoding Ascii
 
-$releaseExeName = "CodexUsageMonitor-$Version-win-x64.exe"
+$releaseExeName = "QuotaOwl-$Version-win-x64.exe"
 $releaseExePath = Join-Path $releaseRoot $releaseExeName
 Copy-Item -LiteralPath $exePath -Destination $releaseExePath -Force
 Copy-Item -LiteralPath ($exePath + ".config") -Destination ($releaseExePath + ".config") -Force

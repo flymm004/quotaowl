@@ -1,0 +1,51 @@
+using System.Collections.Generic;
+
+namespace QuotaOwl
+{
+    internal static class OwlText
+    {
+        private static readonly Dictionary<string, string[]> Strings = new Dictionary<string, string[]> {
+            {"trayLowest", new[] {"Lowest remaining", "托盘显示最低剩余", "系統匣顯示最低剩餘", "最少の残量を表示", "최저 잔여량 표시", "Menor cuota restante", "Niedrigster Rest", "Quota restant minimal"}},
+            {"trayUnknown", new[] {"Quota unavailable", "暂无可用额度数据", "暫無可用額度資料", "利用枠を取得できません", "한도 정보 없음", "Cuota no disponible", "Kontingent unbekannt", "Quota indisponible"}},
+            {"stale", new[] {"Outdated", "旧数据", "舊資料", "古いデータ", "이전 데이터", "Sin actualizar", "Veraltet", "Données anciennes"}},
+            {"staleShort", new[] {"old", "旧", "舊", "旧", "이전", "ant", "alt", "anc"}},
+            {"trayHint", new[] {
+                "The tray shows the lowest remaining percentage across both accounts' 5-hour and weekly limits. * marks the displayed window; old marks a last successful reading; ! marks unavailable data. An amber dot indicates a low limit or a failed read. Click to view both accounts.",
+                "托盘显示双方 5 小时及周额度中最低的剩余百分比。悬停时 * 标出当前显示的窗口，旧表示上次成功数据，! 表示无法读取。黄色小点表示额度低或读取失败。点击查看双方详情。",
+                "系統匣顯示雙方 5 小時及週額度中最低的剩餘百分比。* 標示目前顯示的週期，舊表示上次成功資料，! 表示無法讀取。黃色小點表示額度低或讀取失敗。點選查看詳情。",
+                "トレイには両アカウントの5時間・週間枠の最少残量を表示します。* は表示中の枠、旧は前回のデータ、! は取得失敗です。黄色の点は残量低下または取得失敗を示します。クリックで詳細を表示します。",
+                "트레이에는 두 계정의 5시간 및 주간 한도 중 최저 잔여 비율이 표시됩니다. *는 표시 중인 한도, 이전은 마지막 데이터, !는 읽기 실패입니다. 노란 점은 낮은 한도 또는 읽기 실패를 나타냅니다. 클릭하여 자세히 확인하세요.",
+                "La bandeja muestra el menor porcentaje restante entre los límites de 5 horas y semanales de ambas cuentas. * marca el límite mostrado; ant indica datos anteriores; ! indica datos no disponibles. El punto ámbar indica cuota baja o error. Haz clic para ver los detalles.",
+                "Die Taskleiste zeigt den niedrigsten Rest der 5-Stunden- und Wochenkontingente beider Konten. * markiert den angezeigten Wert; alt bedeutet letzte erfolgreiche Abfrage; ! bedeutet nicht verfügbar. Der gelbe Punkt zeigt ein niedriges Kontingent oder einen Lesefehler. Klicken für Details.",
+                "La zone de notification affiche le plus petit pourcentage restant parmi les quotas de 5 heures et hebdomadaires des deux comptes. * marque le quota affiché ; anc indique les anciennes données ; ! indique une lecture impossible. Le point jaune signale un quota faible ou une erreur. Cliquez pour les détails."
+            }},
+            {"resetWeb", new[] {"Reset count: check Claude", "重置次数：官网查看", "重設次數：官網查看", "リセット回数：Claude で確認", "재설정 횟수: Claude에서 확인", "Reinicios: consultar en Claude", "Resets: bei Claude nachsehen", "Réinitialisations : voir Claude"}},
+            {"browserError", new[] {"Open claude.ai/settings/usage in your browser to check reset credits.", "请在浏览器打开 claude.ai/settings/usage 查看重置次数。", "請在瀏覽器開啟 claude.ai/settings/usage 查看重設次數。", "ブラウザーで claude.ai/settings/usage を開いて確認してください。", "브라우저에서 claude.ai/settings/usage를 열어 확인하세요.", "Abre claude.ai/settings/usage en el navegador para consultar los reinicios.", "claude.ai/settings/usage im Browser öffnen, um die Resets zu prüfen.", "Ouvrez claude.ai/settings/usage dans votre navigateur pour consulter les réinitialisations."}},
+            {"subtitle", new[] {"Two accounts. One glance.", "两路额度，一眼掌握", "兩路額度，一眼掌握", "2つの残量をひと目で", "두 계정의 잔여량을 한눈에", "Dos cuentas, de un vistazo.", "Zwei Konten auf einen Blick.", "Deux comptes en un coup d’œil."}},
+            {"remaining", new[] {"Remaining quota", "显示剩余额度", "顯示剩餘額度", "利用枠の残量", "남은 한도", "Cuota restante", "Verbleibendes Kontingent", "Quota restant"}},
+            {"resetUnknown", new[] {"Reset time unavailable", "暂无重置时间", "暫無重設時間", "リセット時刻なし", "재설정 시간 없음", "Reinicio sin fecha", "Reset-Zeit unbekannt", "Heure de réinitialisation inconnue"}},
+            {"errorClaudeLogin", new[] {"Sign in with Claude Code: claude auth login, then refresh.", "请运行 claude auth login 登录 Claude 官方账户，再刷新。", "請執行 claude auth login 登入 Claude 官方帳戶，再重新整理。", "claude auth login でログインしてから更新してください。", "claude auth login으로 로그인한 뒤 새로고침하세요.", "Inicia sesión con claude auth login y actualiza.", "Mit claude auth login anmelden, dann neu laden.", "Connectez-vous avec claude auth login, puis actualisez."}},
+            {"errorClaudeProvider", new[] {"Claude is configured for an API key or another provider. Switch to your official Claude subscription, then refresh.", "当前 Claude 使用 API Key 或第三方服务。请切回 Claude 官方订阅账户后刷新。", "目前 Claude 使用 API Key 或第三方服務。請切回 Claude 官方訂閱帳戶後重新整理。", "API キーまたは他社サービスが設定されています。Claude の公式サブスクリプションに戻して更新してください。", "API 키 또는 타사 서비스가 설정되어 있습니다. 공식 Claude 구독으로 전환 후 새로고침하세요.", "Claude usa una clave API u otro proveedor. Cambia a tu suscripción oficial y actualiza.", "Claude nutzt einen API-Schlüssel oder anderen Anbieter. Zum offiziellen Claude-Abo wechseln und neu laden.", "Claude utilise une clé API ou un autre fournisseur. Revenez à votre abonnement officiel et actualisez."}},
+            {"errorClaudeSubscription", new[] {"Claude subscription limits are unavailable for this account.", "此账户暂未返回 Claude 订阅额度。", "此帳戶暫未回傳 Claude 訂閱額度。", "このアカウントの Claude 利用枠を取得できません。", "이 계정의 Claude 구독 한도를 확인할 수 없습니다.", "No hay límites de suscripción de Claude para esta cuenta.", "Claude-Abokontingente für dieses Konto nicht verfügbar.", "Les quotas de l’abonnement Claude ne sont pas disponibles."}},
+            {"errorClaudeBusy", new[] {"Too many requests. Wait a moment, then refresh.", "请求过于频繁，请稍后刷新。", "請求過於頻繁，請稍後重新整理。", "リクエストが多すぎます。しばらくして更新してください。", "요청이 너무 많습니다. 잠시 후 새로고침하세요.", "Demasiadas solicitudes. Espera y actualiza.", "Zu viele Anfragen. Kurz warten, dann neu laden.", "Trop de requêtes. Patientez, puis actualisez."}},
+            {"errorClaude", new[] {"Could not read Claude usage. Check your connection and sign-in, then refresh.", "无法读取 Claude 额度，请检查网络及登录状态后刷新。", "無法讀取 Claude 額度，請檢查網路及登入狀態後重新整理。", "Claude の使用量を取得できません。接続とログインを確認して更新してください。", "Claude 사용량을 읽을 수 없습니다. 연결과 로그인 상태를 확인하세요.", "No se pudo leer el uso de Claude. Comprueba la conexión y actualiza.", "Claude-Nutzung nicht lesbar. Verbindung und Anmeldung prüfen, dann neu laden.", "Impossible de lire l’utilisation de Claude. Vérifiez votre connexion et actualisez."}},
+            {"about", new[] {
+                "QuotaOwl shows remaining Codex and Claude subscription quota. Blue is Codex; orange is Claude. One tray number shows the lowest remaining percentage across both accounts' 5-hour and weekly limits. Hover for all four values; click for details.\r\n\r\nCodex uses its local app server. Claude reads your existing Claude Code sign-in and queries the Claude usage service; this internal interface may change. Tokens are used only in memory and never copied or logged. No model requests are made. Refreshes every 2 minutes.",
+                "QuotaOwl 显示 Codex 和 Claude 的订阅剩余额度。蓝色代表 Codex，暖橙色代表 Claude；一个托盘数字显示双方 5 小时及周额度中最低的剩余百分比。悬停查看四项数值，点击查看详情。\r\n\r\nCodex 通过本机服务读取；Claude 使用现有 Claude Code 登录查询官方用量服务（内部接口可能变更）。令牌仅在内存中使用，不复制、不记录；不调用模型。每 2 分钟自动刷新。",
+                "QuotaOwl 顯示 Codex 和 Claude 的訂閱剩餘額度。藍色代表 Codex，橙色代表 Claude；單一系統匣數字顯示雙方 5 小時及週額度中最低的剩餘百分比。停留查看四項數值，點選查看詳情。\r\n\r\nCodex 透過本機服務讀取；Claude 使用現有 Claude Code 登入查詢官方用量服務（內部介面可能變更）。權杖僅在記憶體中使用，不複製、不記錄；不呼叫模型。每 2 分鐘更新。",
+                "QuotaOwl は Codex（青）と Claude（オレンジ）の残量を表示します。1つのトレイ数字で両アカウントの5時間・週間枠の最少残量を表示します。マウスを重ねると4つの値、クリックで詳細を表示します。\r\n\r\nCodex はローカルサービス、Claude は既存の Claude Code ログインで取得します。Claude の内部 API は変更される場合があります。トークンはメモリ内でのみ使用し保存しません。モデルは呼び出さず、2分ごとに更新します。",
+                "QuotaOwl은 Codex(파란색)와 Claude(주황색)의 남은 구독 한도를 표시합니다. 하나의 트레이 숫자로 두 계정의 5시간 및 주간 한도 중 최저 잔여 비율을 표시합니다. 마우스를 올려 네 값을 확인하고 클릭하여 자세히 보세요.\r\n\r\nCodex는 로컬 서비스, Claude는 기존 Claude Code 로그인을 사용합니다. Claude 내부 API는 변경될 수 있습니다. 토큰은 메모리에서만 사용하며 저장하지 않습니다. 모델 호출 없이 2분마다 갱신합니다.",
+                "QuotaOwl muestra la cuota restante de Codex (azul) y Claude (naranja). Un único número muestra el menor porcentaje restante entre los límites de 5 horas y semanales de ambas cuentas. Pasa el cursor para ver los cuatro valores y haz clic para ver los detalles.\r\n\r\nCodex usa su servicio local y Claude tu sesión existente de Claude Code. La interfaz interna de Claude puede cambiar. Los tokens solo se usan en memoria; no se copian ni registran. No se llama a modelos. Se actualiza cada 2 minutos.",
+                "QuotaOwl zeigt die verbleibenden Abokontingente von Codex (blau) und Claude (orange). Eine Tray-Zahl zeigt den niedrigsten Rest der 5-Stunden- und Wochenkontingente beider Konten. Maus darüber für alle vier Werte, klicken für Details.\r\n\r\nCodex nutzt seinen lokalen Dienst, Claude die bestehende Claude-Code-Anmeldung. Claudes interne Schnittstelle kann sich ändern. Tokens werden nur im Speicher verwendet, nie kopiert oder protokolliert. Keine Modellaufrufe. Aktualisierung alle 2 Minuten.",
+                "QuotaOwl affiche le quota restant de Codex (bleu) et Claude (orange). Un seul chiffre affiche le plus petit pourcentage restant parmi les quotas de 5 heures et hebdomadaires des deux comptes. Survolez pour voir les quatre valeurs, cliquez pour les détails.\r\n\r\nCodex utilise son service local et Claude votre connexion Claude Code existante. L’interface interne de Claude peut changer. Les jetons restent en mémoire, sans copie ni journalisation. Aucun appel aux modèles. Actualisation toutes les 2 minutes."
+            }}
+        };
+        public static string Get(string key)
+        {
+            string[] values;
+            if (!Strings.TryGetValue(key, out values)) return UiText.Get(key);
+            for (int i = 0; i < UiText.LanguageCodes.Length; i++) if (UiText.LanguageCodes[i] == UiText.Language) return values[i];
+            return values[0];
+        }
+    }
+}

@@ -1,11 +1,25 @@
 name: Bug report
-description: Report a reproducible problem with Codex Usage Bar.
+description: Report a reproducible problem with QuotaOwl.
 title: "[Bug]: "
 labels: [bug]
 body:
   - type: markdown
     attributes:
       value: "Please remove account emails, authentication data, and live quota values from screenshots and logs."
+  - type: input
+    id: app
+    attributes:
+      label: QuotaOwl version
+      placeholder: 0.2.0-alpha.3
+    validations:
+      required: true
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Affected provider
+      options: [Codex, Claude, Both, UI / tray]
+    validations:
+      required: true
   - type: input
     id: windows
     attributes:
@@ -16,10 +30,15 @@ body:
   - type: input
     id: codex
     attributes:
-      label: Codex CLI version
+      label: Codex CLI version (if relevant)
       placeholder: codex --version
     validations:
-      required: true
+      required: false
+  - type: input
+    id: claude
+    attributes:
+      label: Claude Code version (if relevant)
+      placeholder: claude --version
   - type: input
     id: scaling
     attributes:

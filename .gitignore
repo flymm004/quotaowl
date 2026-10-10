@@ -8,3 +8,7 @@ obj/
 *.log
 Thumbs.db
 Desktop.ini
+.credentials.json
+auth.json
+.env
+.env.*

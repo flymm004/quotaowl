@@ -1,69 +1,75 @@
-# Codex Usage Monitor
+# QuotaOwl 🦉
 
-A Windows Codex CLI usage monitor that lives in the system tray and shows account limits, remaining percentages, and reset times at a glance. It supports eight interface languages and high-DPI displays.
+**Codex and Claude usage, one number in your Windows taskbar.**
 
-[**Download for Windows — CodexUsageMonitor 0.1.0-alpha.1**](https://github.com/flymm004/codex-usage-monitor/releases/tag/v0.1.0-alpha.1) · [All releases](https://github.com/flymm004/codex-usage-monitor/releases)
+A lightweight Windows system tray monitor for your AI subscription limits. See the lowest remaining quota without keeping a terminal or browser tab open.
 
-**Quick start:** Download `CodexUsageMonitor-0.1.0-alpha.1-win-x64.zip` from **Assets**, open the ZIP and choose **Extract All**, then open the extracted folder and double-click `CodexUsageMonitor.exe`. No installer is needed. Codex CLI must already be installed and signed in.
+[简体中文](README.zh-CN.md) · [Download / Releases](https://github.com/flymm004/codex-usage-monitor/releases) · [Report an issue](https://github.com/flymm004/codex-usage-monitor/issues)
 
-[简体中文](README.zh-CN.md)
+> QuotaOwl 0.2.0-alpha.3 is a local preview awaiting publication. Older Codex Usage Monitor releases support Codex only. Look for a **QuotaOwl** ZIP when downloading the new version.
 
-> **Status: Alpha.** This project depends on the local Codex CLI App Server response format, which may change between Codex versions.
+## At a glance
 
-## Features
+<img src="docs/screenshots/usage-panel-en.png" width="352" alt="QuotaOwl panel with sample Codex and Claude quota">
 
-- Shows service-reported short- and long-window percentages and reset times.
-- Shows the short-window percentage in the notification-area icon.
-- Refreshes every two minutes and supports manual refresh.
-- Supports English, Simplified Chinese, Traditional Chinese, Japanese, Korean, Spanish, German, and French. English is first in the language menu; System default is last.
-- Handles high-DPI displays and Per-Monitor V2 scaling.
+*Rendered from the current Windows interface using sample data, not a real account.*
 
-## Screenshots
+<img src="docs/screenshots/tray-badge-sample.png" width="32" alt="Single blue tray badge showing 44">
 
-The tray badge shows the short-window remaining percentage at a glance. Click it to open the usage panel. These screenshots use illustrative sample values, not live account data.
+*The single tray badge: 44% remaining in Codex's weekly window in this example.*
 
-<p align="center">
-  <img src="docs/screenshots/tray-badge-sample.png" width="64" alt="Codex Usage Monitor tray badge showing 76 percent remaining">
-</p>
+- **One tray number:** the lowest remaining percentage across both services' 5-hour and weekly limits.
+- **Blue for Codex, orange for Claude:** the color follows the service behind that number.
+- **Hover for all four values; click for the panel:** see reset times, account status, and Codex reset credits together.
+- **Refresh every 2 minutes:** independent provider reads, manual refresh, and a warning when a limit first falls below 20%.
+- **Eight languages:** English, Simplified Chinese, Traditional Chinese, Japanese, Korean, Spanish, German, and French; system language supported.
+- **Native Windows UI:** per-monitor DPI support, no installer, no administrator privileges, and no package dependencies.
 
-<p align="center">
-  <img src="docs/screenshots/usage-panel-en.png" width="652" alt="Codex Usage Monitor English panel with sample usage values">
-</p>
+## Download and run
 
-## Requirements
+1. Open [Releases](https://github.com/flymm004/codex-usage-monitor/releases) and expand **Assets** on a QuotaOwl release.
+2. Download **QuotaOwl-version-win-x64.zip**. You do not need the **Source code** downloads.
+3. Right-click the ZIP, choose **Extract All**, and open the extracted folder.
+4. Double-click **QuotaOwl.exe**. Keep **QuotaOwl.exe.config** beside it for high-DPI support.
+5. Find the number beside the taskbar clock. If hidden, open the tray overflow menu and drag the icon onto the taskbar.
 
-- Windows 10 or 11
-- .NET Framework 4.8 or newer
-- Codex CLI installed and signed in with a ChatGPT account. API-key-only accounts do not expose ChatGPT plan limits through this view.
+Closing the panel keeps QuotaOwl running. Right-click the icon and choose **Exit** to quit. The single-instance guard also prevents older Codex Usage Monitor versions from running alongside it.
 
-## Run
+### Requirements
 
-The release provides a ZIP package and individual EXE/configuration assets. The ZIP is the simplest option: extract it and run `CodexUsageMonitor.exe`. If downloading the executable separately, also download the matching `.exe.config` asset and keep it beside the EXE; the configuration enables the app's high-DPI behavior. Pushing a `v*` tag builds these files and creates a draft GitHub Release for review.
+- Windows 10 or 11, x64, with .NET Framework 4.8.
+- For Codex: installed CLI or desktop runtime, signed in with a ChatGPT subscription.
+- For Claude: Claude Code signed in with an official subscription (**claude auth login**). The terminal can be closed afterward.
+- Network access to the quota services. Either provider can be used independently.
 
-Initial releases are unsigned, so Windows may show a SmartScreen prompt. Check the release notes and SHA-256 file before running a downloaded build.
+## What does the number mean?
+
+If Codex has **86% / 44%** remaining and Claude has **76% / 91%**, the tray shows **44** in blue. It compares percentages; the services' credits are not combined or interchangeable.
+
+Hover labels use **5h** and **7d**; **\*** marks the window shown in the tray. An amber dot indicates a low limit or a failed read. Right-click to see which service and window the number represents.
+
+Transient failures retain the last successful values in memory, marked as outdated in the panel and hover text. **!** marks a provider without readable data. Sign-out or an unsupported provider configuration clears that provider's values. With one provider unavailable, the number is the minimum of available readings; with no readings it shows **—**, never an invented zero.
+
+## Data sources and limitations
+
+**Codex:** queries the locally installed CLI App Server using its existing sign-in. Prefers the current versioned desktop runtime over an obsolete root binary. Displays reset credits when returned; a missing count is unknown, not zero.
+
+**Claude:** reads the existing Claude Code OAuth credential into memory and queries **https://api.anthropic.com/api/oauth/usage**. **This is an internal client interface and may change.** Shows overall 5-hour and weekly limits, not extra model-specific buckets. Renew expired sign-in through Claude Code; QuotaOwl does not refresh credentials itself.
+
+Claude reset grants are **not automatically readable in this preview**. The panel links to the official Usage page. CC Switch configurations using third-party services or API keys are shown as unsupported subscription usage.
+
+Percentages describe subscription quota, not a fixed number of remaining prompts or tasks.
+
+## Privacy
+
+No model requests, telemetry, saved quota history, token copies, or credential logs. Credentials are sent only to the fixed HTTPS Anthropic usage endpoint, with redirects disabled. Only the language preference is saved locally. See [Security](SECURITY.md).
 
 ## Build from source
 
-Run this from Windows PowerShell 5.1 or PowerShell 7:
+    ./build.ps1 -Version 0.2.0-alpha.3
 
-```powershell
-.\build.ps1 -Version 0.1.0-alpha.1
-```
+Uses the Windows .NET Framework C# compiler. ZIP, EXE, companion config, and SHA-256 files are written to **artifacts/**. See [Contributing](CONTRIBUTING.md) and [Changelog](CHANGELOG.md).
 
-The script uses the .NET Framework C# compiler included with Windows, needs no NuGet packages, and writes the executable, ZIP package, direct-download EXE/config assets, and SHA-256 checksums under the ignored `artifacts/` directory. The same script runs in GitHub Actions.
+## License
 
-## Data and privacy
-
-The app starts the locally installed `codex app-server` over stdio and requests account state and rate limits. The App Server uses the existing Codex sign-in and communicates with Codex services to return the account limits. This app does not contact a developer-operated server, collect telemetry, or save authentication tokens. It does not display or persist the account email. The selected language is stored under the current Windows user's application data directory.
-
-The displayed values come from the Codex service response; this app does not estimate how many tasks remain. The app-server protocol and returned fields can change, so a Codex CLI update may temporarily break compatibility.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md). Please do not attach screenshots or logs containing live account limits, email addresses, tokens, or other private data to public issues.
-
-## License and affiliation
-
-Licensed under the [MIT License](LICENSE).
-
-This is an independent community utility and is not affiliated with or endorsed by OpenAI. “Codex” is used only to identify the compatible product.
+[MIT](LICENSE). Independent community utility, unaffiliated with OpenAI or Anthropic.
