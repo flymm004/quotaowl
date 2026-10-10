@@ -1,6 +1,6 @@
 # QuotaOwl 0.2.0-alpha.3 🦉
 
-Codex Usage Monitor is becoming **QuotaOwl**, a Windows system tray monitor for **Codex and Claude subscription usage**.
+Codex Usage Monitor is now **QuotaOwl**, a Windows system tray monitor for **Codex and Claude subscription usage**.
 
 ## Download
 

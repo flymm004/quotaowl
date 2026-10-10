@@ -4,9 +4,9 @@
 
 一个轻量的 Windows 托盘用量监控工具。只用一个数字显示最低剩余额度，无需一直开着终端或浏览器查询。
 
-[English](README.md) · [下载 / Releases](https://github.com/flymm004/quotaowl/releases) · [反馈问题](https://github.com/flymm004/quotaowl/issues)
+[English](README.md) · [直接下载 Windows ZIP](https://github.com/flymm004/quotaowl/releases/download/v0.2.0-alpha.3/QuotaOwl-0.2.0-alpha.3-win-x64.zip) · [版本说明](https://github.com/flymm004/quotaowl/releases/tag/v0.2.0-alpha.3) · [反馈问题](https://github.com/flymm004/quotaowl/issues)
 
-> 当前 0.2.0-alpha.3 为本地预览版，尚未上传 GitHub。旧版 Codex Usage Monitor 仅支持 Codex；下载新版时请选择名称以 **QuotaOwl** 开头的 ZIP。
+> **当前为 0.2.0-alpha.3 预览版。** Claude 使用客户端内部接口，后续可能变更。旧版 Codex Usage Monitor 仅支持 Codex。
 
 ## 界面与功能
 

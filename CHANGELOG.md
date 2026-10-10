@@ -2,7 +2,7 @@
 
 Notable changes are recorded here for each release.
 
-## Unreleased
+## 0.2.0-alpha.3 — 2026-10-10
 
 - Clarify unavailable Claude reset credits with an official Usage page link instead of leaving the reset section absent.
 - Rename the local preview to QuotaOwl with a multiresolution owl application icon.

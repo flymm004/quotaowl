@@ -11,15 +11,15 @@
 
 README links and the local remote use the canonical `quotaowl` URL. The description and topics have been updated on GitHub. GitHub redirects the old repository address; do not recreate a repository under the old name.
 
-## Before publishing
+## Release procedure
 
-1. Accept the local preview, including the one-number tray behavior and both account panels.
-2. Repository rename, `origin`, README links, repository description, and topics are prepared. Review that the public description matches the upcoming release.
-3. Build `./build.ps1 -Version 0.2.0-alpha.3` and review `git status`.
-4. Remove the local-preview notice from both READMEs only when the QuotaOwl Release is publicly downloadable.
-5. Commit source and documentation. Generated binaries stay outside Git.
-6. Push the branch, then tag `v0.2.0-alpha.3` to produce a **draft prerelease** through GitHub Actions.
-7. Use [the prepared release notes](release-notes-0.2.0-alpha.3.md), confirm the ZIP/config/checksum attachments, and publish the draft when authorized.
+1. Prepare an accepted local preview and versioned release notes.
+2. Keep `origin`, README links, repository description, and topics consistent with QuotaOwl.
+3. Update the version, changelog, and direct download links in both READMEs.
+4. Build `./build.ps1 -Version 0.2.0-alpha.3` and review `git status`. Generated binaries stay outside Git.
+5. Commit and push the branch, then tag `v0.2.0-alpha.3` to produce a **draft prerelease** through GitHub Actions.
+6. Confirm the ZIP/config/checksum attachments, use [the release notes](release-notes-0.2.0-alpha.3.md), and publish the draft when authorized.
+7. Confirm that the public download works and its SHA-256 matches the release checksum.
 
 ## Public assets
 
@@ -28,6 +28,6 @@ README links and the local remote use the canonical `quotaowl` URL. The descript
 - Optional standalone EXE, its companion config, and checksum; the ZIP is simpler for beginners.
 - Current UI images use sample data. Never upload local OAuth files, diagnostic responses, or real-account screenshots.
 
-## Local state
+## Compatibility
 
-The GitHub repository has been renamed to QuotaOwl and its metadata updated. The new application code and Release have not yet been published. The old mutex and language-preference path intentionally remain compatible with earlier versions.
+The repository retains the history of Codex Usage Monitor. The old mutex and language-preference path intentionally remain compatible with earlier versions. Release assets for earlier versions keep their original filenames.

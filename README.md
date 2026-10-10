@@ -4,9 +4,9 @@
 
 A lightweight Windows system tray monitor for your AI subscription limits. See the lowest remaining quota without keeping a terminal or browser tab open.
 
-[简体中文](README.zh-CN.md) · [Download / Releases](https://github.com/flymm004/quotaowl/releases) · [Report an issue](https://github.com/flymm004/quotaowl/issues)
+[简体中文](README.zh-CN.md) · [Download Windows ZIP](https://github.com/flymm004/quotaowl/releases/download/v0.2.0-alpha.3/QuotaOwl-0.2.0-alpha.3-win-x64.zip) · [Release notes](https://github.com/flymm004/quotaowl/releases/tag/v0.2.0-alpha.3) · [Report an issue](https://github.com/flymm004/quotaowl/issues)
 
-> QuotaOwl 0.2.0-alpha.3 is a local preview awaiting publication. Older Codex Usage Monitor releases support Codex only. Look for a **QuotaOwl** ZIP when downloading the new version.
+> **Preview release: 0.2.0-alpha.3.** Claude usage relies on an internal client interface that may change. Older Codex Usage Monitor releases support Codex only.
 
 ## At a glance
 
