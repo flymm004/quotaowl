@@ -3,18 +3,18 @@
 ## Repository identity
 
 - Product: **QuotaOwl**.
-- Proposed repository name: **quotaowl**; reuse the existing repository and preserve its history.
-- Current remote: `https://github.com/flymm004/codex-usage-monitor.git`.
-- After an approved GitHub rename: `https://github.com/flymm004/quotaowl.git`.
+- Repository name: **quotaowl**; renamed from the existing repository with its history preserved.
+- Current remote: `https://github.com/flymm004/quotaowl.git`.
+- Previous name: `https://github.com/flymm004/codex-usage-monitor.git`.
 - Description: **Windows system tray monitor for Codex and Claude subscription usage. One number shows your lowest remaining quota.**
-- Suggested topics: `quotaowl`, `windows`, `system-tray`, `codex`, `claude`, `claude-code`, `usage-monitor`, `quota-monitor`, `ai-tools`, `csharp`, `winforms`.
+- Topics: `quotaowl`, `windows`, `system-tray`, `codex`, `codex-cli`, `claude`, `claude-code`, `usage-monitor`, `quota-monitor`, `ai-tools`, `csharp`, `winforms`, `dotnet-framework`, `high-dpi`.
 
-README links currently use the existing public repository. Update them to the canonical `quotaowl` URL after the rename. GitHub redirects the old repository address; do not recreate a repository under the old name.
+README links and the local remote use the canonical `quotaowl` URL. The description and topics have been updated on GitHub. GitHub redirects the old repository address; do not recreate a repository under the old name.
 
 ## Before publishing
 
 1. Accept the local preview, including the one-number tray behavior and both account panels.
-2. Rename the existing GitHub repository when authorized; update `origin`, README links, repository description, and topics.
+2. Repository rename, `origin`, README links, repository description, and topics are prepared. Review that the public description matches the upcoming release.
 3. Build `./build.ps1 -Version 0.2.0-alpha.3` and review `git status`.
 4. Remove the local-preview notice from both READMEs only when the QuotaOwl Release is publicly downloadable.
 5. Commit source and documentation. Generated binaries stay outside Git.
@@ -30,4 +30,4 @@ README links currently use the existing public repository. Update them to the ca
 
 ## Local state
 
-The repository has been prepared for publication; this document is not evidence that a remote rename, push, or Release publication has occurred. The old mutex and language-preference path intentionally remain compatible with earlier versions.
+The GitHub repository has been renamed to QuotaOwl and its metadata updated. The new application code and Release have not yet been published. The old mutex and language-preference path intentionally remain compatible with earlier versions.

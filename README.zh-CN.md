@@ -4,7 +4,7 @@
 
 一个轻量的 Windows 托盘用量监控工具。只用一个数字显示最低剩余额度，无需一直开着终端或浏览器查询。
 
-[English](README.md) · [下载 / Releases](https://github.com/flymm004/codex-usage-monitor/releases) · [反馈问题](https://github.com/flymm004/codex-usage-monitor/issues)
+[English](README.md) · [下载 / Releases](https://github.com/flymm004/quotaowl/releases) · [反馈问题](https://github.com/flymm004/quotaowl/issues)
 
 > 当前 0.2.0-alpha.3 为本地预览版，尚未上传 GitHub。旧版 Codex Usage Monitor 仅支持 Codex；下载新版时请选择名称以 **QuotaOwl** 开头的 ZIP。
 
@@ -27,7 +27,7 @@
 
 ## 下载和使用
 
-1. 打开 [下载页面](https://github.com/flymm004/codex-usage-monitor/releases)，找到 QuotaOwl 版本，展开 **Assets**。
+1. 打开 [下载页面](https://github.com/flymm004/quotaowl/releases)，找到 QuotaOwl 版本，展开 **Assets**。
 2. 下载 **QuotaOwl-版本号-win-x64.zip**。普通用户不需要下载 **Source code** 源码包。
 3. 右键压缩包，选择“**全部解压缩**”，打开解压后的文件夹。
 4. 双击 **QuotaOwl.exe**。保留同目录的 **QuotaOwl.exe.config**，用于高 DPI 支持。

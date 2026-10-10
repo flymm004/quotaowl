@@ -4,7 +4,7 @@
 
 A lightweight Windows system tray monitor for your AI subscription limits. See the lowest remaining quota without keeping a terminal or browser tab open.
 
-[简体中文](README.zh-CN.md) · [Download / Releases](https://github.com/flymm004/codex-usage-monitor/releases) · [Report an issue](https://github.com/flymm004/codex-usage-monitor/issues)
+[简体中文](README.zh-CN.md) · [Download / Releases](https://github.com/flymm004/quotaowl/releases) · [Report an issue](https://github.com/flymm004/quotaowl/issues)
 
 > QuotaOwl 0.2.0-alpha.3 is a local preview awaiting publication. Older Codex Usage Monitor releases support Codex only. Look for a **QuotaOwl** ZIP when downloading the new version.
 
@@ -27,7 +27,7 @@ A lightweight Windows system tray monitor for your AI subscription limits. See t
 
 ## Download and run
 
-1. Open [Releases](https://github.com/flymm004/codex-usage-monitor/releases) and expand **Assets** on a QuotaOwl release.
+1. Open [Releases](https://github.com/flymm004/quotaowl/releases) and expand **Assets** on a QuotaOwl release.
 2. Download **QuotaOwl-version-win-x64.zip**. You do not need the **Source code** downloads.
 3. Right-click the ZIP, choose **Extract All**, and open the extracted folder.
 4. Double-click **QuotaOwl.exe**. Keep **QuotaOwl.exe.config** beside it for high-DPI support.
