@@ -1,12 +1,12 @@
-# QuotaOwl 0.2.0-alpha.3 🦉
-
 Codex Usage Monitor is now **QuotaOwl**, a Windows system tray monitor for **Codex and Claude subscription usage**.
 
 ## Download
 
+[Download Windows ZIP / 下载 Windows 版本](https://github.com/flymm004/quotaowl/releases/download/v0.2.0-alpha.3/QuotaOwl-0.2.0-alpha.3-win-x64.zip)
+
 Download **QuotaOwl-0.2.0-alpha.3-win-x64.zip** from Assets below, extract it, and run **QuotaOwl.exe**. Keep **QuotaOwl.exe.config** beside the EXE. Requires Windows 10/11 x64 and .NET Framework 4.8. No installer or administrator privileges needed.
 
-**中文：**在下方 Assets 下载 **QuotaOwl-0.2.0-alpha.3-win-x64.zip**，全部解压后双击 **QuotaOwl.exe**。保留同目录配置文件，无需安装。不要下载 Source code 源码包。
+中文下载：点击上方下载链接，或在下方 Assets 下载 **QuotaOwl-0.2.0-alpha.3-win-x64.zip**，全部解压后双击 **QuotaOwl.exe**。保留同目录配置文件，无需安装。不要下载 Source code 源码包。
 
 ## What's new
 
