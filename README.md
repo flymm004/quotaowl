@@ -10,13 +10,21 @@ A lightweight Windows system tray monitor for your AI subscription limits. See t
 
 ## At a glance
 
-<img src="docs/screenshots/usage-panel-en.png" width="352" alt="QuotaOwl panel with sample Codex and Claude quota">
-
-*Rendered from the current Windows interface using sample data, not a real account.*
+### 1. Check your quota without opening another window
 
 <img src="docs/screenshots/tray-badge-sample.png" width="32" alt="Single blue tray badge showing 44">
 
-*The single tray badge: 44% remaining in Codex's weekly window in this example.*
+**44 means the lowest remaining quota is 44%.** Blue identifies Codex; orange identifies Claude. In this example, Codex's weekly quota is the lowest of the four values below. Hover over the tray icon for a quick breakdown.
+
+### 2. Click for both accounts and reset times
+
+<img src="docs/screenshots/usage-panel-en.png" width="352" alt="QuotaOwl panel showing Codex 86% and 44%, Claude 76% and 91%, and reset times">
+
+See the 5-hour and weekly limits together, when they reset, and the last update time. The globe button switches language; Refresh requests current usage.
+
+*Images are rendered from the current Windows interface with sample data, not a real account.*
+
+### Features
 
 - **One tray number:** the lowest remaining percentage across both services' 5-hour and weekly limits.
 - **Blue for Codex, orange for Claude:** the color follows the service behind that number.

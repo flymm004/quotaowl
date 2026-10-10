@@ -10,13 +10,21 @@
 
 ## 界面与功能
 
-<img src="docs/screenshots/usage-panel-zh-cn.png" width="352" alt="QuotaOwl 双服务面板，使用示例额度">
-
-*图片由当前 Windows 界面使用示例数据渲染，不包含真实账户数据。*
+### 1. 不开新窗口，也能看到最低剩余额度
 
 <img src="docs/screenshots/tray-badge-sample.png" width="32" alt="单个蓝色托盘图标显示 44">
 
-*单个托盘数字示例：这里表示 Codex 的周额度剩余 44%。*
+**44 表示目前最低的剩余额度为 44%。** 蓝色代表 Codex，暖橙色代表 Claude。这里显示的是下图四项额度中最低的 Codex 周额度。鼠标悬停即可快速查看双方数值。
+
+### 2. 点击数字，查看两个服务的详情
+
+<img src="docs/screenshots/usage-panel-zh-cn.png" width="352" alt="QuotaOwl 双服务面板：Codex 剩余 86% 和 44%，Claude 剩余 76% 和 91%，以及重置时间">
+
+一次看清 5 小时和 7 天额度、重置时间与上次更新时间。右上角地球按钮可切换语言，右下角可手动刷新。
+
+*图片由当前 Windows 界面使用示例数据渲染，不包含真实账户数据。*
+
+### 功能概览
 
 - **托盘只显示一个数字**：比较双方 5 小时、7 天额度，显示最低的剩余百分比。
 - **蓝色 Codex，暖橙色 Claude**：数字颜色跟随最低值所属服务。
