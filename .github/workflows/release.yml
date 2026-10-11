@@ -13,6 +13,9 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Check refresh policy
+        shell: pwsh
+        run: .\test.ps1
       - name: Build release assets
         shell: pwsh
         run: |

@@ -2,6 +2,13 @@
 
 Notable changes are recorded here for each release.
 
+## 0.2.0-alpha.4 — 2026-10-11
+
+- Check Claude usage at most once every 10 minutes, with the same interval for automatic and manual refresh. Codex retains its independent 2-minute timer.
+- Back off after HTTP 429 for 10, 20, 40, then 60 minutes, respecting a longer server `Retry-After`. Show the next retry time and retain clearly marked outdated readings.
+- Detect expired Claude credentials before sending a request. Allow immediate retry after the credential file changes following a sign-in error.
+- Update refresh hints, sign-in errors, and Info text in all eight UI languages.
+
 ## 0.2.0-alpha.3 — 2026-10-10
 
 - Clarify unavailable Claude reset credits with an official Usage page link instead of leaving the reset section absent.

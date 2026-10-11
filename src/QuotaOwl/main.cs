@@ -61,10 +61,12 @@ namespace QuotaOwl
     {
         public readonly string Key;
         public readonly string Detail;
-        public UsageReadException(string key, string detail = null) : base(key)
+        public readonly TimeSpan? RetryAfter;
+        public UsageReadException(string key, string detail = null, TimeSpan? retryAfter = null) : base(key)
         {
             Key = key;
             Detail = detail;
+            RetryAfter = retryAfter;
         }
     }
 

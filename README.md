@@ -4,9 +4,9 @@
 
 A lightweight Windows system tray monitor for your AI subscription limits. See the lowest remaining quota without keeping a terminal or browser tab open.
 
-[简体中文](README.zh-CN.md) · [Download Windows ZIP](https://github.com/flymm004/quotaowl/releases/download/v0.2.0-alpha.3/QuotaOwl-0.2.0-alpha.3-win-x64.zip) · [Release notes](https://github.com/flymm004/quotaowl/releases/tag/v0.2.0-alpha.3) · [Report an issue](https://github.com/flymm004/quotaowl/issues)
+[简体中文](README.zh-CN.md) · [Download Windows ZIP](https://github.com/flymm004/quotaowl/releases/download/v0.2.0-alpha.4/QuotaOwl-0.2.0-alpha.4-win-x64.zip) · [Release notes](https://github.com/flymm004/quotaowl/releases/tag/v0.2.0-alpha.4) · [Report an issue](https://github.com/flymm004/quotaowl/issues)
 
-> **Preview release: 0.2.0-alpha.3.** Claude usage relies on an internal client interface that may change. Older Codex Usage Monitor releases support Codex only.
+> **Preview release: 0.2.0-alpha.4.** Claude usage relies on an internal client interface that may change. Older Codex Usage Monitor releases support Codex only.
 
 ## At a glance
 
@@ -29,7 +29,7 @@ See the 5-hour and weekly limits together, when they reset, and the last update 
 - **One tray number:** the lowest remaining percentage across both services' 5-hour and weekly limits.
 - **Blue for Codex, orange for Claude:** the color follows the service behind that number.
 - **Hover for all four values; click for the panel:** see reset times, account status, and Codex reset credits together.
-- **Refresh every 2 minutes:** independent provider reads, manual refresh, and a warning when a limit first falls below 20%.
+- **Independent refresh:** Codex every 2 minutes; Claude at most once every 10 minutes, including manual refresh. Rate limits trigger longer waits and a visible retry time. A warning appears when a limit first falls below 20%.
 - **Eight languages:** English, Simplified Chinese, Traditional Chinese, Japanese, Korean, Spanish, German, and French; system language supported.
 - **Native Windows UI:** per-monitor DPI support, no installer, no administrator privileges, and no package dependencies.
 
@@ -68,13 +68,17 @@ Claude reset grants are **not automatically readable in this preview**. The pane
 
 Percentages describe subscription quota, not a fixed number of remaining prompts or tasks.
 
+Claude's normal 10-minute interval also applies to the Refresh button. On HTTP 429, QuotaOwl waits 10, 20, 40, then 60 minutes after consecutive rate-limit responses, or longer if the server supplies a later `Retry-After`. Successful reads reset this waiting period. The panel preserves available readings as outdated and shows when it will retry; hover over Refresh for the next scheduled Claude check. This reduces polling but cannot guarantee availability of Claude's internal endpoint.
+
+Expired Claude sign-in is reported separately. Run `claude auth login`, then refresh; a changed credential file allows an immediate retry after a sign-in error. QuotaOwl does not renew credentials itself.
+
 ## Privacy
 
 No model requests, telemetry, saved quota history, token copies, or credential logs. Credentials are sent only to the fixed HTTPS Anthropic usage endpoint, with redirects disabled. Only the language preference is saved locally. See [Security](SECURITY.md).
 
 ## Build from source
 
-    ./build.ps1 -Version 0.2.0-alpha.3
+    ./build.ps1 -Version 0.2.0-alpha.4
 
 Uses the Windows .NET Framework C# compiler. ZIP, EXE, companion config, and SHA-256 files are written to **artifacts/**. See [Contributing](CONTRIBUTING.md) and [Changelog](CHANGELOG.md).
 

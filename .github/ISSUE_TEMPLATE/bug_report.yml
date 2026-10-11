@@ -10,7 +10,7 @@ body:
     id: app
     attributes:
       label: QuotaOwl version
-      placeholder: 0.2.0-alpha.3
+      placeholder: 0.2.0-alpha.4
     validations:
       required: true
   - type: dropdown

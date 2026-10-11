@@ -16,7 +16,26 @@ namespace QuotaOwl
         public DateTime UpdatedAt;
         public bool Reading;
         public bool WasLow;
+        public DateTime NextReadUtc;
+        public long CredentialRevision;
+        private int rateLimitFailures;
         public ProviderState(string name, Color accent) { Name = name; Accent = accent; }
+        internal bool CanRead(DateTime now, long credentialRevision)
+        {
+            return !Reading && (Name != "Claude" || now >= NextReadUtc ||
+                (Error != null && Error.Key == "errorClaudeLogin" && credentialRevision != CredentialRevision));
+        }
+        internal void CompleteRead(UsageReadException error, DateTime now)
+        {
+            if (Name != "Claude") return;
+            if (error == null) rateLimitFailures = 0;
+            if (error != null && error.Key == "errorClaudeBusy") {
+                rateLimitFailures = Math.Min(4, rateLimitFailures + 1);
+                TimeSpan delay = TimeSpan.FromMinutes(Math.Min(60, 10 * (1 << (rateLimitFailures - 1))));
+                if (error.RetryAfter.HasValue && error.RetryAfter.Value > delay) delay = error.RetryAfter.Value;
+                NextReadUtc = now.Add(delay);
+            }
+        }
     }
 
     internal sealed class UsageApplicationContext : ApplicationContext
@@ -26,6 +45,7 @@ namespace QuotaOwl
         };
         private readonly UsageWindow window;
         private readonly System.Windows.Forms.Timer timer;
+        private readonly System.Windows.Forms.Timer claudeTimer;
         private readonly List<ToolStripMenuItem> languageChoices = new List<ToolStripMenuItem>();
         private readonly ContextMenuStrip menu;
         private readonly ToolStripMenuItem summaryItem, showItem, refreshItem, languageItem, exitItem;
@@ -53,8 +73,10 @@ namespace QuotaOwl
             };
             ApplyLanguage();
             timer = new System.Windows.Forms.Timer { Interval = 120000 };
-            timer.Tick += delegate { RefreshUsage(); };
+            timer.Tick += delegate { RefreshProvider(providers[0]); };
             timer.Start();
+            claudeTimer = new System.Windows.Forms.Timer { Interval = 600000 };
+            claudeTimer.Tick += delegate { RefreshProvider(providers[1]); };
             ShowWindow();
             RefreshUsage();
         }
@@ -98,11 +120,18 @@ namespace QuotaOwl
         private void RefreshUsage()
         {
             foreach (ProviderState state in providers) RefreshProvider(state);
+            window.Render();
         }
 
         private void RefreshProvider(ProviderState state)
         {
-            if (state.Reading) return;
+            long credentialRevision = state.Name == "Claude" ? ClaudeReader.CredentialRevision : 0;
+            if (!state.CanRead(DateTime.UtcNow, credentialRevision)) return;
+            if (state.Name == "Claude") {
+                claudeTimer.Stop();
+                state.CredentialRevision = credentialRevision;
+                state.NextReadUtc = DateTime.UtcNow.AddMinutes(10);
+            }
             state.Reading = true;
             window.Render();
             ThreadPool.QueueUserWorkItem(delegate {
@@ -120,6 +149,13 @@ namespace QuotaOwl
                         if (result != null || !CanKeepLastReading(error)) state.Result = result;
                         state.Error = error;
                         state.Reading = false;
+                        state.CompleteRead(error, DateTime.UtcNow);
+                        if (state.Name == "Claude") {
+                            // A timer also caps long Retry-After waits without bypassing the deadline.
+                            double wait = (state.NextReadUtc - DateTime.UtcNow).TotalMilliseconds;
+                            claudeTimer.Interval = (int)Math.Min(Int32.MaxValue, Math.Max(1000, Math.Ceiling(wait)));
+                            claudeTimer.Start();
+                        }
                         if (result != null) state.UpdatedAt = DateTime.Now;
                         UpdateTray();
                         bool low = result != null && result.Rows.Exists(delegate(UsageRow row) { return row.RemainingPercent < 20; });
@@ -192,6 +228,7 @@ namespace QuotaOwl
         private void ExitApplication()
         {
             timer.Stop(); timer.Dispose();
+            claudeTimer.Stop(); claudeTimer.Dispose();
             tray.Visible = false;
             tray.Dispose();
             if (trayIcon != null) trayIcon.Dispose();
@@ -323,7 +360,6 @@ namespace QuotaOwl
             infoButton.Font = new Font(UiText.FontName, 8F);
             refreshButton.Font = new Font(UiText.FontName, 8F);
             tips.SetToolTip(languageButton, UiText.Get("languageTooltip"));
-            tips.SetToolTip(refreshButton, UiText.Get("refreshTooltip"));
             ApplyMenuLanguage();
             Render();
         }
@@ -333,6 +369,9 @@ namespace QuotaOwl
             for (int i = 0; i < providers.Length; i++) { sections[i].Render(); reading |= providers[i].Reading; }
             refreshButton.Enabled = !reading;
             refreshButton.Text = UiText.Get("refresh");
+            ProviderState claude = providers[1];
+            tips.SetToolTip(refreshButton, String.Format(OwlText.Get("claudeRefreshHint"),
+                claude.NextReadUtc == DateTime.MinValue ? "—" : claude.NextReadUtc.ToLocalTime().ToString("HH:mm")));
         }
         public void CloseForExit() { allowClose = true; Close(); }
         protected override void Dispose(bool disposing)
@@ -391,6 +430,8 @@ namespace QuotaOwl
             string status = state.Reading ? UiText.Get("updating") : state.Error != null ?
                 state.Result == null ? UiText.Get("readFailed") : OwlText.Get("stale") + " · " + state.UpdatedAt.ToString("HH:mm") :
                 state.Result == null ? UiText.Get("reading") : UiText.Format("updatedAt", state.UpdatedAt.ToString("HH:mm"));
+            if (!state.Reading && state.Error != null && state.Error.Key == "errorClaudeBusy")
+                status = String.Format(OwlText.Get("retryAt"), state.NextReadUtc.ToLocalTime().ToString("HH:mm"));
             Label timestamp = Add(status, 143, 1, 169, 21, 7F, state.Error != null ? Palette.Error : Palette.Dim, false, scale);
             timestamp.TextAlign = ContentAlignment.MiddleRight;
             if (state.Result != null) {
@@ -410,6 +451,8 @@ namespace QuotaOwl
                 if (state.Name == "Codex") Add(state.Result.AvailableResetCount.HasValue ?
                     state.Result.AvailableResetCount.Value == 0 ? UiText.Get("noResets") : UiText.ResetCredits(state.Result.AvailableResetCount.Value) :
                     UiText.Get("resetCountUnknown"), 0, 143, 312, 17, 7F, Palette.Dim, false, scale);
+                else if (state.Error != null && state.Error.Key == "errorClaudeBusy")
+                    Add(OwlText.Get("rateLimited"), 0, 143, 312, 17, 7F, Palette.Error, false, scale);
                 else {
                     // Claude's OAuth usage surface does not expose this account's reset grants.
                     // A missing entitlement is unknown, never an explicit zero.

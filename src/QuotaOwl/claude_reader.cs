@@ -9,10 +9,25 @@ namespace QuotaOwl
 {
     internal static class ClaudeReader
     {
+        private static string ConfigRoot
+        {
+            get {
+                string root = Environment.GetEnvironmentVariable("CLAUDE_CONFIG_DIR");
+                return String.IsNullOrWhiteSpace(root) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".claude") : root;
+            }
+        }
+        internal static long CredentialRevision
+        {
+            get {
+                try { return File.GetLastWriteTimeUtc(Path.Combine(ConfigRoot, ".credentials.json")).Ticks; }
+                catch (IOException) { return 0; }
+                catch (UnauthorizedAccessException) { return 0; }
+                catch (ArgumentException) { return 0; }
+            }
+        }
         public static UsageResult Read()
         {
-            string root = Environment.GetEnvironmentVariable("CLAUDE_CONFIG_DIR");
-            if (String.IsNullOrWhiteSpace(root)) root = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".claude");
+            string root = ConfigRoot;
             Dictionary<string, object> settings = LoadJson(Path.Combine(root, "settings.json"), false);
             Dictionary<string, object> configuredEnv = Object(settings, "env");
             ValidateProvider(configuredEnv, Environment.GetEnvironmentVariable("ANTHROPIC_BASE_URL"),
@@ -22,6 +37,7 @@ namespace QuotaOwl
             Dictionary<string, object> oauth = Object(credentials, "claudeAiOauth");
             string token = StringValue(oauth, "accessToken");
             if (String.IsNullOrWhiteSpace(token)) throw new UsageReadException("errorClaudeLogin");
+            if (CredentialExpired(StringValue(oauth, "expiresAt"), DateTimeOffset.UtcNow)) throw new UsageReadException("errorClaudeLogin");
 
             // The Claude client uses this internal read-only endpoint. Do not follow redirects
             // with credentials or send tokens to a custom provider configured by CC Switch.
@@ -30,7 +46,7 @@ namespace QuotaOwl
             request.AllowAutoRedirect = false;
             request.Timeout = 15000;
             request.ReadWriteTimeout = 15000;
-            request.UserAgent = "QuotaOwl/0.2.0";
+            request.UserAgent = "QuotaOwl/0.2.0-alpha.4";
             request.Accept = "application/json";
             request.Headers[HttpRequestHeader.Authorization] = "Bearer " + token;
             request.Headers["anthropic-beta"] = "oauth-2025-04-20";
@@ -49,11 +65,28 @@ namespace QuotaOwl
                         int status = (int)response.StatusCode;
                         if (status == 401) throw new UsageReadException("errorClaudeLogin");
                         if (status == 403) throw new UsageReadException("errorClaudeSubscription");
-                        if (status == 429) throw new UsageReadException("errorClaudeBusy");
+                        if (status == 429) throw new UsageReadException("errorClaudeBusy", retryAfter: ParseRetryAfter(response.Headers["Retry-After"], DateTimeOffset.UtcNow));
                     }
                 }
                 throw new UsageReadException("errorClaude");
             }
+        }
+
+        internal static bool CredentialExpired(string expiresAt, DateTimeOffset now)
+        {
+            long expiry;
+            return Int64.TryParse(expiresAt, NumberStyles.Integer, CultureInfo.InvariantCulture, out expiry) && expiry <= now.ToUnixTimeMilliseconds();
+        }
+
+        internal static TimeSpan? ParseRetryAfter(string value, DateTimeOffset now)
+        {
+            int seconds;
+            if (Int32.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out seconds))
+                return seconds > 0 ? (TimeSpan?)TimeSpan.FromSeconds(seconds) : null;
+            DateTimeOffset date;
+            if (DateTimeOffset.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out date) && date > now)
+                return date - now;
+            return null;
         }
 
         internal static void ValidateProvider(Dictionary<string, object> settingsEnv, string processBaseUrl, bool processHasApiCredentials)

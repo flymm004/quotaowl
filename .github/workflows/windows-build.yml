@@ -15,14 +15,17 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Check refresh policy
+        shell: pwsh
+        run: .\test.ps1
       - name: Build and package
         shell: pwsh
-        run: .\build.ps1 -Version 0.2.0-alpha.3
+        run: .\build.ps1 -Version 0.2.0-alpha.4
       - name: Upload build artifacts
         uses: actions/upload-artifact@v7
         with:
           name: QuotaOwl-win-x64
           path: |
-            artifacts/QuotaOwl-0.2.0-alpha.3-win-x64.zip*
+            artifacts/QuotaOwl-0.2.0-alpha.4-win-x64.zip*
             artifacts/release/*
           if-no-files-found: error

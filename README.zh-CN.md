@@ -4,9 +4,9 @@
 
 一个轻量的 Windows 托盘用量监控工具。只用一个数字显示最低剩余额度，无需一直开着终端或浏览器查询。
 
-[English](README.md) · [直接下载 Windows ZIP](https://github.com/flymm004/quotaowl/releases/download/v0.2.0-alpha.3/QuotaOwl-0.2.0-alpha.3-win-x64.zip) · [版本说明](https://github.com/flymm004/quotaowl/releases/tag/v0.2.0-alpha.3) · [反馈问题](https://github.com/flymm004/quotaowl/issues)
+[English](README.md) · [直接下载 Windows ZIP](https://github.com/flymm004/quotaowl/releases/download/v0.2.0-alpha.4/QuotaOwl-0.2.0-alpha.4-win-x64.zip) · [版本说明](https://github.com/flymm004/quotaowl/releases/tag/v0.2.0-alpha.4) · [反馈问题](https://github.com/flymm004/quotaowl/issues)
 
-> **当前为 0.2.0-alpha.3 预览版。** Claude 使用客户端内部接口，后续可能变更。旧版 Codex Usage Monitor 仅支持 Codex。
+> **当前为 0.2.0-alpha.4 预览版。** Claude 使用客户端内部接口，后续可能变更。旧版 Codex Usage Monitor 仅支持 Codex。
 
 ## 界面与功能
 
@@ -29,7 +29,7 @@
 - **托盘只显示一个数字**：比较双方 5 小时、7 天额度，显示最低的剩余百分比。
 - **蓝色 Codex，暖橙色 Claude**：数字颜色跟随最低值所属服务。
 - **悬停看四项额度，点击开详情**：双方重置时间、读取状态、Codex 可用重置次数集中展示。
-- **每 2 分钟自动刷新**：双方独立读取，支持手动刷新；额度首次低于 20% 时提醒。
+- **独立刷新周期**：Codex 每 2 分钟刷新；Claude 每 10 分钟最多查询一次，手动刷新也遵守此间隔。受限时自动延长等待并显示重试时间；额度首次低于 20% 时提醒。
 - **八种语言**：英文、简体中文、繁体中文、日语、韩语、西班牙语、德语、法语，也可跟随系统。
 - **Windows 原生界面**：按显示器 DPI 缩放，无需安装，无需管理员权限，无额外包依赖。
 
@@ -68,13 +68,17 @@ Claude 的可用重置权益**暂未自动读取**，面板提供官网用量页
 
 额度百分比不等于固定的剩余提问次数或任务次数。
 
+Claude 的刷新按钮也遵守 10 分钟间隔。连续收到 HTTP 429 时，依次等待 10、20、40、60 分钟；如果服务返回更长的 `Retry-After`，按服务要求等待。成功读取后恢复正常周期。已有数据会标为旧数据，面板显示下次重试时间；悬停刷新按钮可查看下次 Claude 查询时间。减少请求频次不能保证内部接口始终可用。
+
+登录过期会单独提示。运行 `claude auth login` 后点击刷新；登录失败后检测到凭证文件更新，允许立即重试。QuotaOwl 不会自行续期凭证。
+
 ## 隐私
 
 不调用模型，不上传遥测，不保存额度历史，不复制或记录令牌。Claude 凭证只发送到固定的 HTTPS Anthropic 用量接口，禁止跟随重定向。仅保存语言偏好。详见[安全说明](SECURITY.md)。
 
 ## 从源码构建
 
-    ./build.ps1 -Version 0.2.0-alpha.3
+    ./build.ps1 -Version 0.2.0-alpha.4
 
 使用 Windows 的 .NET Framework C# 编译器，生成 ZIP、EXE、配套配置及 SHA-256 文件，位于 **artifacts/**。另见[贡献指南](CONTRIBUTING.md)和[更新记录](CHANGELOG.md)。
 
